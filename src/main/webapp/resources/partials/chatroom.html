@@ -1,0 +1,46 @@
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target=".navbar-collapse">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Chat Room</a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#/view1">Home</a></li>
+				<li><a href="logout.html">Logout ({{name}})</a></li>
+			</ul>
+		</div>
+		<!--/.navbar-collapse -->
+	</div>
+</div>
+
+<div class="container">
+	<hr />
+
+	<div class="chatparticipants">
+		<ul class="list-unstyled">
+			<li ng-repeat="p in participants | orderBy:'name'"><span class="chatname">{{p.name}}</span></li>
+		</ul>
+	</div>
+
+	<div class="chatmessages" scroll-glue>
+		<ul class="list-unstyled">
+			<li ng-repeat="m in messages"><span class="chatname" title="{{m.timestamp | date:'medium'}}">{{m.name}}</span>: {{m.message}} </li>
+		</ul>
+	</div>
+	<hr/>
+	<form ng:submit="sendMessage()" class="form-inline">
+		<input type="text" ng-model="message" autofocus="autofocus"/>
+		<button type="button" ng-click="sendMessage()"
+			class="btn btn-default btn-xs">
+			<span class="glyphicon glyphicon-chevron-right"></span> Send
+		</button>
+		<p>{{error}}</p>
+	</form>
+</div>
+<!-- /container -->

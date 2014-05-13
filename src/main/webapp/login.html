@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+  <title>sign in - spring 4/angularjs chat room</title>
+  <link href="resources/lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+  <link href="resources/css/login.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <div id="errorDiv" class="alert alert-error" style="display:none">
+      Invalid username/password.
+    </div>
+    <form class="form-signin" method="post" action="login.html">
+      <h3 class="muted form-signin-heading">Please sign in</h3>
+      <input type="text" class="input-block-level" placeholder="User name" name="username" autofocus="autofocus">
+      <input type="password" class="input-block-level" placeholder="Password" name="password">
+      <button class="btn btn-primary" type="submit">Sign in</button>
+      <hr>
+      <p class="text-info">
+      	<small>
+        	Log in as:<br/> <strong>john/smith</strong>,<br/> or <strong>jane/doe</strong>
+        </small>
+      </p>
+    </form>
+  </div><!-- /container -->
+
+  <script src="resources/lib/jquery/jquery.js"></script>
+  <script type="text/javascript">
+ 	 $(function() {
+ 		var query = window.location.search;
+        if(query.indexOf('error') != -1) {
+        	$("#errorDiv").show();
+        } else {
+        	$("#errorDiv").hide();
+        }
+	 });
+  </script>
+</body>
+</html>
