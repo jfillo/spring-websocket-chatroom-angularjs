@@ -30,7 +30,7 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { ChatWebConfig.class, ChatWebSocketConfig.class };
+		return new Class<?>[] { ChatWebConfig.class };
 	}
 
 	@Override
