@@ -36,10 +36,18 @@
         lines.push("" + name + ":" + value);
       }
       if (this.body) {
-        lines.push("content-length:" + ('' + this.body).length);
+        lines.push("content-length:" + (Frame.sizeOfUTF8(this.body)));
       }
       lines.push(Byte.LF + this.body);
       return lines.join(Byte.LF);
+    };
+
+    Frame.sizeOfUTF8 = function(s) {
+      if (s) {
+        return encodeURI(s).split(/%..|./).length - 1;
+      } else {
+        return 0;
+      }
     };
 
     unmarshallSingle = function(data) {
@@ -166,17 +174,17 @@
         if (typeof this.debug === "function") {
           this.debug("send PING every " + ttl + "ms");
         }
-        this.pinger = typeof window !== "undefined" && window !== null ? window.setInterval(function() {
+        this.pinger = Stomp.setInterval(ttl, function() {
           _this.ws.send(Byte.LF);
           return typeof _this.debug === "function" ? _this.debug(">>> PING") : void 0;
-        }, ttl) : void 0;
+        });
       }
       if (!(this.heartbeat.incoming === 0 || serverOutgoing === 0)) {
         ttl = Math.max(this.heartbeat.incoming, serverOutgoing);
         if (typeof this.debug === "function") {
           this.debug("check PONG every " + ttl + "ms");
         }
-        return this.ponger = typeof window !== "undefined" && window !== null ? window.setInterval(function() {
+        return this.ponger = Stomp.setInterval(ttl, function() {
           var delta;
           delta = now() - _this.serverActivity;
           if (delta > ttl * 2) {
@@ -185,7 +193,7 @@
             }
             return _this.ws.close();
           }
-        }, ttl) : void 0;
+        });
       }
     };
 
@@ -208,7 +216,7 @@
           headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3];
           break;
         default:
-          headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3], headers.vhost = args[4];
+          headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3], headers.host = args[4];
       }
       return [headers, connectCallback, errorCallback];
     };
@@ -321,12 +329,10 @@
     Client.prototype._cleanUp = function() {
       this.connected = false;
       if (this.pinger) {
-        if (typeof window !== "undefined" && window !== null) {
-          window.clearInterval(this.pinger);
-        }
+        Stomp.clearInterval(this.pinger);
       }
       if (this.ponger) {
-        return typeof window !== "undefined" && window !== null ? window.clearInterval(this.ponger) : void 0;
+        return Stomp.clearInterval(this.ponger);
       }
     };
 
@@ -421,7 +427,6 @@
   })();
 
   Stomp = {
-    libVersion: "2.0.0-next",
     VERSIONS: {
       V1_0: '1.0',
       V1_1: '1.1',
@@ -446,10 +451,15 @@
   };
 
   if (typeof window !== "undefined" && window !== null) {
+    Stomp.setInterval = function(interval, f) {
+      return window.setInterval(f, interval);
+    };
+    Stomp.clearInterval = function(id) {
+      return window.clearInterval(id);
+    };
     window.Stomp = Stomp;
   } else if (typeof exports !== "undefined" && exports !== null) {
     exports.Stomp = Stomp;
-    Stomp.WebSocketClass = require('./test/server.mock.js').StompServerMock;
   } else {
     self.Stomp = Stomp;
   }

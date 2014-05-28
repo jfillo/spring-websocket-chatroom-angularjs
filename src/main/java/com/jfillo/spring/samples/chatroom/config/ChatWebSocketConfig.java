@@ -1,5 +1,6 @@
 package com.jfillo.spring.samples.chatroom.config;
 
+
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +30,8 @@ public class ChatWebSocketConfig extends AbstractWebSocketMessageBrokerConfigure
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker("/queue/");
+		registry.enableSimpleBroker("/queue/","/topic/");
+		//registry.enableStompBrokerRelay("/queue/","/topic/");
 		registry.setApplicationDestinationPrefixes("/app");		
 	}
 	
@@ -37,6 +39,7 @@ public class ChatWebSocketConfig extends AbstractWebSocketMessageBrokerConfigure
 	public ChatService chatService() {
 		return new ChatServiceImpl();
 	}
+	
 	
 	@Bean
 	public ApplicationListener<SessionDisconnectEvent> stompDisconnectListener() {

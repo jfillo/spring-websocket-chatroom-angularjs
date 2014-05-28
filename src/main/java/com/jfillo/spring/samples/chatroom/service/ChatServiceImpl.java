@@ -18,8 +18,8 @@ public class ChatServiceImpl implements ChatService {
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(ChatServiceImpl.class);
 	
-	private static final String PARTICIPANT_UPDATES_DEST = "/queue/participant-updates";
-	private static final String MESSAGE_UPDATE_DEST = "/queue/message-updates";
+	private static final String PARTICIPANT_UPDATES_DEST = "/topic/participant-updates";
+	private static final String MESSAGE_UPDATE_DEST = "/topic/message-updates";
 	
 	@Autowired
 	private SimpMessageSendingOperations messagingTemplate;

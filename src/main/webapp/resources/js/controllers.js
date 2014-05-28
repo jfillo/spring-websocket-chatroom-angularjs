@@ -9,7 +9,8 @@ angular.module('myApp.controllers', [])
 			$scope.participants = new Array();
 			
 			$scope.client = ngstomp('/spring-chatroom/chatroom');
-			$scope.client.connect('loginid', 'passcode',
+			//$scope.client.connect('loginid', 'passcode',
+			$scope.client.connect('guest', 'guest',
 				function(frames) {
 					// successful connection
 					$scope.name = frames[0].headers['user-name'];
@@ -22,10 +23,10 @@ angular.module('myApp.controllers', [])
 						$scope.participants = JSON.parse(message.body);
 					});
 					
-					$scope.client.subscribe("/queue/message-updates", function(message) {
+					$scope.client.subscribe("/topic/message-updates", function(message) {
 						$scope.messages.push(JSON.parse(message.body));
 					});					
-					$scope.client.subscribe("/queue/participant-updates", function(message) {
+					$scope.client.subscribe("/topic/participant-updates", function(message) {
 						$scope.participants = JSON.parse(message.body);
 					});
 					$scope.client.subscribe("/queue/errors"+queueSuffix, function(message) {
@@ -34,7 +35,7 @@ angular.module('myApp.controllers', [])
 					
 				},
 				function(frames){
-					// error connecting 					
+					console.log(frames);					
 				}
 			);
 			 
