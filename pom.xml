@@ -8,8 +8,8 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-		<org.springframework-version>4.1.0.BUILD-SNAPSHOT</org.springframework-version>
-		<org.springframework.security-version>3.2.3.RELEASE</org.springframework.security-version>
+		<org.springframework-version>5.3.32</org.springframework-version>
+		<org.springframework.security-version>5.8.10</org.springframework.security-version>
 	</properties>
 	<dependencies>
 		<dependency>
